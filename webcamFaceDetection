@@ -1,0 +1,22 @@
+# references https://youtu.be/WQeoO7MI0Bs
+
+import cv2
+
+faceCascade = cv2.CascadeClassifier("Resources/haarcascade_frontalface_default.xml") # gettting database
+cap = cv2.VideoCapture(0)
+# cap = cv2.VideoCapture(0)
+cap.set(3,640) #setting width
+cap.set(4,480) #setting height
+cap.set(10,100) #setting brightness
+
+while True:
+    success, img = cap.read()
+    imgGrey = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
+
+    faces = faceCascade.detectMultiScale(imgGrey, 1.1, 4)  # getting faces data
+    for (x, y, w, h) in faces:
+        cv2.rectangle(img, (x, y), ((x + w), (y + h)), (0, 255, 0), 4)  # drawing square over faces
+
+    cv2.imshow("Webcam",img)
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
